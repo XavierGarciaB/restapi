@@ -5,7 +5,7 @@ function open() {
   $dbhost = "localhost";
   $dbport = 3306;
   $dbuser = "root";
-  $dbpass = "loadri11";
+  $dbpass = "";
   $db = "proyectolp";
 
   $connection = null;
