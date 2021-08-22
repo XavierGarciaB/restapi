@@ -15,6 +15,8 @@ if ($method == "OPTIONS") {
 include './connections/profesionales_conn.php';
 include './connections/horarios_conn.php';
 include './connections/avisos_conn.php';
+include './connections/citas_conn.php';
+include './connections/resenas_conn.php';
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode( '/', $uri );
@@ -27,6 +29,12 @@ if ($uri[3] == 'profesionales') {
 
 }elseif($uri[3] == 'avisos'){
   avisosQuery($uri);
+
+}elseif($uri[3] == 'citas'){
+  citasQuery($uri);
+
+}elseif($uri[3] == 'resenas'){
+  resenasQuery($uri);
 
 }
 else {
