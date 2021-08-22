@@ -22,8 +22,7 @@ function open() {
   return $connection;
 }
 
-function select($query = "" , $params = [])
-{
+function select($query = "" , $params = []) {
   try {
     $link = open();
     $result = mysqli_query($link, $query);
@@ -39,28 +38,16 @@ function select($query = "" , $params = [])
   return false;
 }
 
-/*
-function executeStatement($query = "" , $params = [])
-{
+function executeStatement($query = "", $params = []) {
   try {
     $link = open();
-    $stmt = mysqli_prepare($link, $query);
+    $result = mysqli_query($link, $query);
 
-    if($stmt === false) {
-      throw New Exception("Unable to do prepared statement: " . $query);
-    }
-
-    if ($params) {
-      mysqli_stmt_bind_param($stmt, $params[0], $params[1]);
-    }
-
-    mysqli_stmt_execute($stmt);
-
-    return $stmt;
+    return $result;
   } catch(Exception $e) {
     throw New Exception( $e->getMessage() );
-  }   
+  }
+  return false;
 }
-*/
-   
+
 ?>
