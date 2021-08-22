@@ -1,6 +1,5 @@
 <?php
 
-include 'db_connection.php';
 
 function open() {
   $dbhost = "localhost";

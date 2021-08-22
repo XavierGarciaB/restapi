@@ -1,7 +1,7 @@
 <?php
 
-require 'base_connection.php';
-require $_SERVER['DOCUMENT_ROOT'] . '/restapi/models/profesionales.php';
+require_once 'base_connection.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/restapi/models/profesionales.php';
 
 function profesionalesQuery($uri) {
   $data = null;
