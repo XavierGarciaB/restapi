@@ -13,10 +13,10 @@ function listCitasbyUsuario($id) {
 }
 
 function createCita($cita) {
-    $horario = $cita->horario;
+    $horarios_id = $cita->horarios_id;
     $usuarios_id = $cita->usuarios_id;
     $estado = $cita->estado;
-    $query = "INSERT INTO citas(estado,horarios_id,usuarios_id) VALUES ('$estado','$horario','$usuarios_id')";
+    $query = "INSERT INTO citas(estado,horarios_id,usuarios_id) VALUES ('$estado','$horarios_id','$usuarios_id')";
     $result = executeStatement($query);
     return $result;
 }

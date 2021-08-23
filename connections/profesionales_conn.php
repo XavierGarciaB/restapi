@@ -18,6 +18,7 @@ function profesionalesQuery($uri) {
       break;
     case 'POST':
       if ($action == 'create') {
+        echo "DENTRO DE CREATE";
         $data = create($strErrorDesc, $strErrorHeader);
       }
       break;
