@@ -17,6 +17,7 @@ include './connections/horarios_conn.php';
 include './connections/avisos_conn.php';
 include './connections/citas_conn.php';
 include './connections/resenas_conn.php';
+include './connections/usuarios_conn.php';
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode( '/', $uri );
@@ -24,6 +25,7 @@ $uri = explode( '/', $uri );
 // uri: http://localhost/restapi/index.php/${uri[3]}
 if ($uri[3] == 'profesionales') {
   profesionalesQuery($uri);
+
 }elseif($uri[3] == 'horarios'){
   horariosQuery($uri);
 
@@ -35,6 +37,9 @@ if ($uri[3] == 'profesionales') {
 
 }elseif($uri[3] == 'resenas'){
   resenasQuery($uri);
+
+}elseif($uri[3] == 'usuarios'){
+  usuariosQuery($uri);
 
 }
 else {

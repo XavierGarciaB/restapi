@@ -1,9 +1,9 @@
 <?php
 
 require_once 'base_connection.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/restapi/models/profesionales.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/restapi/models/usuarios.php';
 
-function profesionalesQuery($uri) {
+function usuariosQuery($uri) {
   $data = null;
   $strErrorDesc = '';
   $strErrorHeader = '';
@@ -13,23 +13,23 @@ function profesionalesQuery($uri) {
   switch (strtoupper($requestMethod)) {
     case 'GET':
       if ($action == 'list') {
-        $data = listAll($strErrorDesc, $strErrorHeader);
+        $data = listarUsuarios($strErrorDesc, $strErrorHeader);
       }
       break;
     case 'POST':
       if ($action == 'create') {
-        $data = create($strErrorDesc, $strErrorHeader);
+        $data = crearUsuario($strErrorDesc, $strErrorHeader);
       }
       break;
     case 'PATCH':
       if ($action == 'update') {
-        $data = update($strErrorDesc, $strErrorHeader);
+        $data = actualizarUsuario($strErrorDesc, $strErrorHeader);
       }
       break;
     case 'DELETE':
       if ($action == 'delete') {
         $id = $uri[5];
-        $data = delete($strErrorDesc, $strErrorHeader, $id);
+        $data = eliminarUsuario($strErrorDesc, $strErrorHeader, $id);
       }
       break;
     default:
@@ -37,10 +37,10 @@ function profesionalesQuery($uri) {
       $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
       break;
   }
-  sendOutputProfesionales($data, $strErrorDesc, $strErrorHeader);
+  sendOutputUsuarios($data, $strErrorDesc, $strErrorHeader);
 }
 
-function sendOutputProfesionales($data, $strErrorDesc, $strErrorHeader) {
+function sendOutputUsuarios($data, $strErrorDesc, $strErrorHeader) {
   if (!$strErrorDesc) {
     sendOutput(
       $data,
@@ -53,12 +53,12 @@ function sendOutputProfesionales($data, $strErrorDesc, $strErrorHeader) {
   }
 }
 
-function listAll($strErrorDesc, $strErrorHeader) {
+function listarUsuarios($strErrorDesc, $strErrorHeader) {
   $response = null;
 
   try {
-    $arrProfesionales = listProfesionales();
-    $response = json_encode($arrProfesionales);
+    $arrUsuarios = listUsuarios();
+    $response = json_encode($arrUsuarios);
   } catch (Error $e) {
     $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
     $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
@@ -67,16 +67,16 @@ function listAll($strErrorDesc, $strErrorHeader) {
   return $response;
 }
 
-function create($strErrorDesc, $strErrorHeader) {
+function crearUsuario($strErrorDesc, $strErrorHeader) {
   $response = null;
 
   try {
-    $profesional = json_decode(file_get_contents("php://input"));
-    $result = createProfesional($profesional);
+    $usuario = json_decode(file_get_contents("php://input"));
+    $result = createUsuario($usuario);
     if ($result) {
-      $response = json_encode(array('message' => 'Post Created'));
+      $response = json_encode(array('message' => 'Usuario Created'));
     } else {
-      $response = json_encode(array('message' => 'Post Not Created'));
+      $response = json_encode(array('message' => 'Usuario Not Created'));
     }
   } catch (Error $e) {
     $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
@@ -86,14 +86,14 @@ function create($strErrorDesc, $strErrorHeader) {
   return $response;
 }
 
-function update($strErrorDesc, $strErrorHeader) {
+function actualizarUsuario($strErrorDesc, $strErrorHeader) {
   $response = null;
 
   try {
-    $profesional = json_decode(file_get_contents("php://input"));
-    $result = updateProfesional($profesional);
+    $usuario = json_decode(file_get_contents("php://input"));
+    $result = updateUsuario($usuario);
     if ($result) {
-      $response = json_encode(array('message' => 'Patch Done'));
+      $response = json_encode(array('message' => 'Usuario updated'));
     } else {
       $response = json_encode(array('message' => 'Patch Not Done'));
     }
@@ -105,13 +105,13 @@ function update($strErrorDesc, $strErrorHeader) {
   return $response;
 }
 
-function delete($strErrorDesc, $strErrorHeader, $id) {
+function eliminarUsuario($strErrorDesc, $strErrorHeader, $id) {
   $response = null;
 
   try {
-    $result = deleteProfesional($id);
+    $result = deleteUsuario($id);
     if ($result) {
-      $response = json_encode(array('message' => 'Item Deleted'));
+      $response = json_encode(array('message' => 'Usuario Deleted'));
     } else {
       $response = json_encode(array('message' => 'Item Not Deleted'));
     }
