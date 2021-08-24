@@ -5,7 +5,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/restapi/db.php';
 function listCitasbyUsuario($id) {
     $idUser = $id->id;
     $datos = [];
-    $resultado = select("SELECT * FROM citas WHERE usuarios_id == $idUser");
+    $resultado = select("SELECT * FROM (citas JOIN horarios JOIN profesionales ON (citas.horarios_id=horarios.id AND horarios.profesionales_id=profesionales.id)) WHERE citas.usuarios_id=$idUser");
     foreach($resultado as $cita){
         array_push($datos, $cita);
     }
@@ -21,7 +21,9 @@ function createCita($cita) {
     return $result;
 }
 
-function updateEstadoCita($estado, $id) {
+function updateEstadoCita($cita) {
+    $estado = $cita->estado;
+    $id = $cita->id;
     $query = "UPDATE citas SET estado='$estado' WHERE id=$id";
     $result = executeStatement($query);
     return $result;

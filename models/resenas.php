@@ -4,7 +4,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/restapi/db.php';
  
 function listResenas() {
     $datos = [];
-    $resultado = select("SELECT * FROM resenas");
+    $resultado = select("SELECT resenas.fechaPublicacion, resenas.comentario, usuarios.nombre as userName, profesionales.nombre as profesionalName FROM (resenas JOIN usuarios JOIN profesionales ON (resenas.usuarios_id=usuarios.id AND profesionales_id=profesionales.id))");
     foreach($resultado as $review){
         array_push($datos, $review);
     }
@@ -12,7 +12,7 @@ function listResenas() {
 }
 
 function createResena($review) {
-    $usuario = $review->usuario_id;
+    $usuario = $review->usuarios_id;
     $comentario = $review->comentario;
     $profesional = $review->profesionales_id;
     $fecha = $review->fechaPublicacion;
@@ -24,6 +24,7 @@ function createResena($review) {
 function updateResena($review) {
     $fecha = $review->fechaPublicacion;
     $comentario = $review->comentario;
+    $id= $review->id;
     $query = "UPDATE resenas SET fechaPublicacion='$fecha', comentario='$comentario' WHERE id=$id";
     $result = executeStatement($query);
     return $result;
