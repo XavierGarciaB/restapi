@@ -14,7 +14,8 @@ function horariosQuery($uri){
   switch (strtoupper($requestMethod)) {
     case 'GET':
       if ($action == 'list') {
-        $data = listAllB($strErrorDesc, $strErrorHeader);
+        $profesionalId = $uri[5];
+        $data = listAllB($strErrorDesc, $strErrorHeader, $profesionalId);
       }
       break;
     case 'POST':
@@ -60,11 +61,11 @@ function sendOutputHorarios($data, $strErrorDesc, $strErrorHeader) {
 }
 
 
-function listAllB($strErrorDesc, $strErrorHeader) {
+function listAllB($strErrorDesc, $strErrorHeader, $profesionalId) {
     $response = null;
   
     try {
-      $arrHorarios = listHorarios();
+      $arrHorarios = listHorarios($profesionalId);
       $response = json_encode($arrHorarios);
     } catch (Error $e) {
       $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';

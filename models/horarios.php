@@ -2,9 +2,9 @@
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/restapi/db.php';
  
-function listHorarios() {
+function listHorarios($profesionalId) {
     $data = [];
-    $result = select("SELECT * FROM horarios");
+    $result = select("SELECT * FROM horarios WHERE profesionales_id=$profesionalId");
     foreach($result as $profi){
         array_push($data, $profi);
     }
@@ -21,11 +21,13 @@ function createHorario($horario) {
 }
 
 function updateHorario($horario) {
-    $id = $horario->id;
+    $id = intval($horario->id);
+    $fecha = $horario->fecha;
+    $disponible = $horario->disponible ? 'true' : 'false';
     $inicio = $horario->horaInicio;
     $fin = $horario->horaFin;
-    $profesional_id = $horario->profesionales_id;
-    $query = "UPDATE horarios SET horaInicio='$inicio', horaFin='$fin', profesionales_id=$profesional_id WHERE id=$id";
+    $profesional_id = intval($horario->profesionales_id);
+    $query = "UPDATE horarios SET fecha='$fecha', disponible=$disponible, horaInicio='$inicio', horaFin='$fin', profesionales_id=$profesional_id WHERE id=$id";
     $result = executeStatement($query);
     return $result;
 }
