@@ -14,8 +14,12 @@ function horariosQuery($uri){
   switch (strtoupper($requestMethod)) {
     case 'GET':
       if ($action == 'list') {
-        $profesionalId = $uri[5];
-        $data = listAllB($strErrorDesc, $strErrorHeader, $profesionalId);
+        if (sizeof($uri) == 6) {
+          $profesionalId = $uri[5];
+          $data = listByProfesional($strErrorDesc, $strErrorHeader, $profesionalId);
+        } else {
+          $data = listAllB($strErrorDesc, $strErrorHeader);
+        }
       }
       break;
     case 'POST':
@@ -61,11 +65,12 @@ function sendOutputHorarios($data, $strErrorDesc, $strErrorHeader) {
 }
 
 
-function listAllB($strErrorDesc, $strErrorHeader, $profesionalId) {
+function listAllB($strErrorDesc, $strErrorHeader) {
     $response = null;
   
     try {
-      $arrHorarios = listHorarios($profesionalId);
+      
+      $arrHorarios = listHorarios();
       $response = json_encode($arrHorarios);
     } catch (Error $e) {
       $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
@@ -73,6 +78,21 @@ function listAllB($strErrorDesc, $strErrorHeader, $profesionalId) {
     }
   
     return $response;
+}
+
+function listByProfesional($strErrorDesc, $strErrorHeader, $profesionalId) {
+  $response = null;
+
+  try {
+    
+    $arrHorarios = listHorariosByProfesional($profesionalId);
+    $response = json_encode($arrHorarios);
+  } catch (Error $e) {
+    $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
+    $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+  }
+
+  return $response;
 }
 
 

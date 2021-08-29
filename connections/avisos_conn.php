@@ -65,6 +65,7 @@ function listAllA($strErrorDesc, $strErrorHeader) {
     $response = null;
   
     try {
+      
       $arrAvisos = listAvisos();
       $response = json_encode($arrAvisos);
     } catch (Error $e) {

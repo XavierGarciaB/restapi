@@ -3,8 +3,10 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/restapi/db.php';
  
 function listAvisos() {
+    
     $data = [];
-    $result = select("SELECT * FROM avisos");
+    $result = select("SELECT * FROM profesionales join avisos on profesionales.id=profesionales_id");
+    //$result= select("SELECT * FROM avisos");
     foreach($result as $profi){
         array_push($data, $profi);
     }

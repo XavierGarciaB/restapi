@@ -4,6 +4,15 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/restapi/db.php';
  
 function listHorarios($profesionalId) {
     $data = [];
+    $result = select("SELECT * FROM profesionales join horarios on profesionales.id=profesionales_id");
+    foreach($result as $profi){
+        array_push($data, $profi);
+    }
+    return $data;
+}
+
+function listHorariosByProfesional($profesionalId) {
+    $data = [];
     $result = select("SELECT * FROM horarios WHERE profesionales_id=$profesionalId");
     foreach($result as $profi){
         array_push($data, $profi);
@@ -12,10 +21,11 @@ function listHorarios($profesionalId) {
 }
 
 function createHorario($horario) {
+    $disponible=$horario->$disponible;
     $horaInicio = $horario->horaInicio;
     $horaFin = $horario->horaFin;
     $profesionales_id = $horario->profesionales_id;
-    $query = "INSERT INTO horarios(horaInicio,horaFin,profesionales_id) VALUES ('$horaInicio','$horaFin',$profesionales_id)";
+    $query = "INSERT INTO horarios(disponible,horaInicio,horaFin,profesionales_id) VALUES ($disponible,'$horaInicio','$horaFin',$profesionales_id)";
     $result = executeStatement($query);
     return $result;
 }
