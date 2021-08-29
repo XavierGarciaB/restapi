@@ -65,8 +65,8 @@ function listAllA($strErrorDesc, $strErrorHeader) {
     $response = null;
   
     try {
-      $id = json_decode(file_get_contents("php://input"));
-      $arrAvisos = listAvisosByProfesional($id);
+      
+      $arrAvisos = listAvisos();
       $response = json_encode($arrAvisos);
     } catch (Error $e) {
       $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
