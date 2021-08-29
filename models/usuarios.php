@@ -11,6 +11,15 @@ function listUsuarios() {
     return $data;
 }
 
+function getUsuario($id) {
+    $data = [];
+    $result = select("SELECT * FROM usuarios WHERE id=$id");
+    foreach($result as $usuario){
+        array_push($data, $usuario);
+    }
+    return $data[0];
+}
+
 function createUsuario($usuario) {
     $nombre = $usuario->nombre;
     $cedula = $usuario->cedula;

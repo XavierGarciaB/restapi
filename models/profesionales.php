@@ -11,6 +11,15 @@ function listProfesionales() {
     return $data;
 }
 
+function getProfesional($id) {
+    $data = [];
+    $result = select("SELECT * FROM profesionales WHERE id=$id");
+    foreach($result as $profi) {
+        array_push($data, $profi);
+    }
+    return $data[0];
+}
+
 function createProfesional($profesional) {
     $nombre = $profesional->nombre;
     $edad = $profesional->edad;

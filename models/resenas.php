@@ -11,6 +11,15 @@ function listResenas() {
     return $datos;
 }
 
+function listResenasByProfesional($id) {
+    $datos = [];
+    $resultado = select("SELECT * FROM resenas WHERE profesionales_id=$id");
+    foreach($resultado as $review){
+        array_push($datos, $review);
+    }
+    return $datos;
+}
+
 function createResena($review) {
     $usuario = $review->usuarios_id;
     $comentario = $review->comentario;

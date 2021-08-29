@@ -13,7 +13,12 @@ function resenasQuery($uri) {
   switch (strtoupper($requestMethod)) {
     case 'GET':
       if ($action == 'list') {
-        $data = listarResenas($strErrorDesc, $strErrorHeader);
+        if (sizeof($uri) == 6) {
+          $id = $uri[5];
+          $data = listarResenasByProfesional($strErrorDesc, $strErrorHeader, $id);
+        } else {
+          $data = listarResenas($strErrorDesc, $strErrorHeader);
+        }
       }
       break;
     case 'POST':
@@ -58,6 +63,20 @@ function listarResenas($strErrorDesc, $strErrorHeader) {
 
   try {
     $resenas = listResenas();
+    $response = json_encode($resenas);
+  } catch (Error $e) {
+    $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
+    $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+  }
+
+  return $response;
+}
+
+function listarResenasByProfesional($strErrorDesc, $strErrorHeader, $id) {
+  $response = null;
+
+  try {
+    $resenas = listResenasByProfesional($id);
     $response = json_encode($resenas);
   } catch (Error $e) {
     $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';

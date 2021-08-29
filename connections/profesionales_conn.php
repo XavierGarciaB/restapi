@@ -14,6 +14,9 @@ function profesionalesQuery($uri) {
     case 'GET':
       if ($action == 'list') {
         $data = listAll($strErrorDesc, $strErrorHeader);
+      } else if ($action == 'get') {
+        $id = $uri[5];
+        $data = getOne($strErrorDesc, $strErrorHeader, $id);
       }
       break;
     case 'POST':
@@ -59,6 +62,20 @@ function listAll($strErrorDesc, $strErrorHeader) {
   try {
     $arrProfesionales = listProfesionales();
     $response = json_encode($arrProfesionales);
+  } catch (Error $e) {
+    $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
+    $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+  }
+
+  return $response;
+}
+
+function getOne($strErrorDesc, $strErrorHeader, $id) {
+  $response = null;
+
+  try {
+    $profesional = getProfesional($id);
+    $response = json_encode($profesional);
   } catch (Error $e) {
     $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
     $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';

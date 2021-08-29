@@ -14,6 +14,9 @@ function usuariosQuery($uri) {
     case 'GET':
       if ($action == 'list') {
         $data = listarUsuarios($strErrorDesc, $strErrorHeader);
+      } else if ($action == 'get') {
+        $id = $uri[5];
+        $data = getOneUsuario($strErrorDesc, $strErrorHeader, $id);
       }
       break;
     case 'POST':
@@ -59,6 +62,20 @@ function listarUsuarios($strErrorDesc, $strErrorHeader) {
   try {
     $arrUsuarios = listUsuarios();
     $response = json_encode($arrUsuarios);
+  } catch (Error $e) {
+    $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
+    $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+  }
+
+  return $response;
+}
+
+function getOneUsuario($strErrorDesc, $strErrorHeader, $id) {
+  $response = null;
+
+  try {
+    $usuario = getUsuario($id);
+    $response = json_encode($usuario);
   } catch (Error $e) {
     $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
     $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
