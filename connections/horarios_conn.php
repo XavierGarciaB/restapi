@@ -64,7 +64,8 @@ function listAllB($strErrorDesc, $strErrorHeader) {
     $response = null;
   
     try {
-      $arrHorarios = listHorarios();
+      $id = json_decode(file_get_contents("php://input"));
+      $arrHorarios = listHorariosByProfesional($id);
       $response = json_encode($arrHorarios);
     } catch (Error $e) {
       $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
