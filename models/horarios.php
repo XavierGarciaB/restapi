@@ -2,10 +2,9 @@
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/restapi/db.php';
  
-function listHorariosByProfesional($id) {
-    $idPro = $id->id;
+function listHorarios() {
     $data = [];
-    $result = select("SELECT * FROM profesionales join horarios on profesionales.id=profesionales_id where profesionales_id=$idPro");
+    $result = select("SELECT * FROM profesionales join horarios on profesionales.id=profesionales_id");
     foreach($result as $profi){
         array_push($data, $profi);
     }
