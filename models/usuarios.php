@@ -20,6 +20,18 @@ function getUsuario($id) {
     return $data[0];
 }
 
+function validateUsuario($usuario, $cedula) {
+    $data = [];
+    $result = select("SELECT * FROM usuarios WHERE email='$usuario' AND cedula='$cedula'");
+    foreach($result as $usuario){
+        array_push($data, $usuario);
+    }
+    if (count($data) > 0) {
+        return $data[0];
+    }
+    return null;
+}
+
 function createUsuario($usuario) {
     $nombre = $usuario->nombre;
     $cedula = $usuario->cedula;

@@ -17,6 +17,10 @@ function usuariosQuery($uri) {
       } else if ($action == 'get') {
         $id = $uri[5];
         $data = getOneUsuario($strErrorDesc, $strErrorHeader, $id);
+      } else if ($action == 'validate') {
+        $usuario = $uri[5];
+        $cedula = $uri[6];
+        $data = validarUsuario($strErrorDesc, $strErrorHeader, $usuario, $cedula);
       }
       break;
     case 'POST':
@@ -75,6 +79,20 @@ function getOneUsuario($strErrorDesc, $strErrorHeader, $id) {
 
   try {
     $usuario = getUsuario($id);
+    $response = json_encode($usuario);
+  } catch (Error $e) {
+    $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
+    $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+  }
+
+  return $response;
+}
+
+function validarUsuario($strErrorDesc, $strErrorHeader, $usuario, $cedula) {
+  $response = null;
+
+  try {
+    $usuario = validateUsuario($usuario, $cedula);
     $response = json_encode($usuario);
   } catch (Error $e) {
     $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
