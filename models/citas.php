@@ -2,14 +2,22 @@
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/restapi/db.php';
  
-function listCitasbyUsuario($id) {
-    $idUser = $id->id;
+function listCitasbyUsuario($idUser) {
+    $data = [];
+    $result = select("SELECT * FROM citas WHERE usuarios_id=$idUser");
+    foreach($result as $cita) {
+        array_push($data, $cita);
+    }
+    return $data;
+}
+
+function getCita($id) {
     $datos = [];
-    $resultado = select("SELECT * FROM (citas JOIN horarios JOIN profesionales ON (citas.horarios_id=horarios.id AND horarios.profesionales_id=profesionales.id)) WHERE citas.usuarios_id=$idUser");
+    $resultado = select("SELECT * FROM citas WHERE id=$id");
     foreach($resultado as $cita){
         array_push($datos, $cita);
     }
-    return $datos;
+    return $datos[0];
 }
 
 function createCita($cita) {
@@ -17,6 +25,7 @@ function createCita($cita) {
     $usuarios_id = $cita->usuarios_id;
     $estado = $cita->estado;
     $query = "INSERT INTO citas(estado,horarios_id,usuarios_id) VALUES ('$estado','$horarios_id','$usuarios_id')";
+
     $result = executeStatement($query);
     return $result;
 }

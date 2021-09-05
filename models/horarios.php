@@ -20,6 +20,15 @@ function listHorariosByProfesional($profesionalId) {
     return $data;
 }
 
+function getHorario($id) {
+    $data = [];
+    $result = select("SELECT * FROM horarios WHERE id=$id");
+    foreach($result as $horario) {
+        array_push($data, $horario);
+    }
+    return $data[0];
+}
+
 function createHorario($horario) {
     $disponible=$horario->$disponible;
     $horaInicio = $horario->horaInicio;

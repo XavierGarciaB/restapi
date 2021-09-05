@@ -13,7 +13,17 @@ function citasQuery($uri) {
   switch (strtoupper($requestMethod)) {
     case 'GET':
       if ($action == 'list') {
-        $data = listarCitas($strErrorDesc, $strErrorHeader);
+        $id = $uri[5];
+        $data = listarCitas($strErrorDesc, $strErrorHeader, $id);
+      }else if($action == 'get') {
+        $id = $uri[5];
+        $data = getCitabyId($strErrorDesc, $strErrorHeader, $id);
+      }    
+      break;
+
+      if ($action == 'list') {
+        $id = $uri[5];
+        $data = listarCitas($strErrorDesc, $strErrorHeader, $id);
       }
       break;
     case 'POST':
@@ -53,13 +63,26 @@ function sendCitas($data, $strErrorDesc, $strErrorHeader) {
   }
 }
 
-function listarCitas($strErrorDesc, $strErrorHeader) {
+function listarCitas($strErrorDesc, $strErrorHeader, $id) {
   $response = null;
 
   try {
-    $id = json_decode(file_get_contents("php://input"));
     $citas = listCitasbyUsuario($id);
     $response = json_encode($citas);
+  } catch (Error $e) {
+    $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
+    $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+  }
+
+  return $response;
+}
+
+function getCitaById($strErrorDesc, $strErrorHeader, $id) {
+  $response = null;
+
+  try {
+    $horario = getCita($id);
+    $response = json_encode($horario);
   } catch (Error $e) {
     $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
     $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';

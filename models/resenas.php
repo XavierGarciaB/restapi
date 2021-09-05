@@ -4,7 +4,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/restapi/db.php';
  
 function listResenas() {
     $datos = [];
-    $resultado = select("SELECT resenas.fechaPublicacion, resenas.comentario, usuarios.nombre as userName, profesionales.nombre as profesionalName FROM (resenas JOIN usuarios JOIN profesionales ON (resenas.usuarios_id=usuarios.id AND profesionales_id=profesionales.id))");
+    $resultado = select("SELECT * FROM resenas");
     foreach($resultado as $review){
         array_push($datos, $review);
     }
