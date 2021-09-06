@@ -76,6 +76,20 @@ function listAllA($strErrorDesc, $strErrorHeader) {
     return $response;
 }
 
+function listByProfesional($strErrorDesc, $strErrorHeader, $profesionalId) {
+  $response = null;
+
+  try {
+    
+    $arrAvisos = listAvisosByProfesional($profesionalId);
+    $response = json_encode($arrAvisos);
+  } catch (Error $e) {
+    $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
+    $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+  }
+
+  return $response;
+}
 
 function createA($strErrorDesc, $strErrorHeader) {
     $response = null;

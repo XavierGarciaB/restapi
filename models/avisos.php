@@ -13,6 +13,16 @@ function listAvisos() {
     return $data;
 }
 
+function listAvisosByProfesional($profesionalId) {
+    $data = [];
+    $result = select("SELECT * FROM avisos WHERE profesionales_id=$profesionalId");
+    foreach($result as $profi){
+        array_push($data, $profi);
+    }
+    return $data;
+}
+
+
 function createAviso($aviso) {
     $fecha = $aviso->fechaPublicacion;
     $contenido = $aviso->contenido;
