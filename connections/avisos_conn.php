@@ -76,7 +76,7 @@ function listAllA($strErrorDesc, $strErrorHeader) {
     return $response;
 }
 
-function listByProfesional($strErrorDesc, $strErrorHeader, $profesionalId) {
+function listByProfesionalAvisos($strErrorDesc, $strErrorHeader, $profesionalId) {
   $response = null;
 
   try {
