@@ -20,6 +20,20 @@ function getProfesional($id) {
     return $data[0];
 }
 
+function validateProfesional($id, $nombre) {
+    $data = [];
+    $nombre_limpio = str_replace('%20', ' ', $nombre);
+    $result = select("SELECT * FROM profesionales WHERE id=$id AND nombre='$nombre_limpio'");
+    foreach($result as $profi){
+        array_push($data, $profi);
+    }
+    if (count($data) > 0) {
+        return $data[0];
+    }
+    var_dump($data);
+    return null;
+}
+
 function createProfesional($profesional) {
     $nombre = $profesional->nombre;
     $edad = $profesional->edad;

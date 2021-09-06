@@ -17,6 +17,10 @@ function profesionalesQuery($uri) {
       } else if ($action == 'get') {
         $id = $uri[5];
         $data = getOne($strErrorDesc, $strErrorHeader, $id);
+      } else if ($action == 'validate') {
+        $id = $uri[5];
+        $nombre = $uri[6];
+        $data = validarProfesional($strErrorDesc, $strErrorHeader, $id, $nombre);
       }
       break;
     case 'POST':
@@ -75,6 +79,20 @@ function getOne($strErrorDesc, $strErrorHeader, $id) {
 
   try {
     $profesional = getProfesional($id);
+    $response = json_encode($profesional);
+  } catch (Error $e) {
+    $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
+    $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+  }
+
+  return $response;
+}
+
+function validarProfesional($strErrorDesc, $strErrorHeader, $id, $nombre) {
+  $response = null;
+
+  try {
+    $profesional = validateProfesional($id, $nombre);
     $response = json_encode($profesional);
   } catch (Error $e) {
     $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
