@@ -30,6 +30,7 @@ function getHorario($id) {
 }
 
 function createHorario($horario) {
+    $fecha = $horario->fecha;
     $disponible=$horario->$disponible;
     $horaInicio = $horario->horaInicio;
     $horaFin = $horario->horaFin;
