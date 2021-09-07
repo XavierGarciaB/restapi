@@ -35,7 +35,7 @@ function createHorario($horario) {
     $horaInicio = $horario->horaInicio;
     $horaFin = $horario->horaFin;
     $profesionales_id = $horario->profesionales_id;
-    $query = "INSERT INTO horarios(disponible,horaInicio,horaFin,profesionales_id) VALUES ($disponible,'$horaInicio','$horaFin',$profesionales_id)";
+    $query = "INSERT INTO horarios(disponible,horaInicio,horaFin,profesionales_id,fecha) VALUES ($disponible,'$horaInicio','$horaFin',$profesionales_id,'$fecha')";
     $result = executeStatement($query);
     return $result;
 }
