@@ -15,8 +15,20 @@ function avisosQuery($uri){
   switch (strtoupper($requestMethod)) {
     case 'GET':
       if ($action == 'list') {
-        $data = listAllA($strErrorDesc, $strErrorHeader);
+        if (sizeof($uri) == 6) {
+          $profesionalId = $uri[5];
+          $data = listByProfesionalAvisos($strErrorDesc, $strErrorHeader, $profesionalId);
+        }else{
+          $data = listAllA($strErrorDesc, $strErrorHeader);
+
       }
+
+      }else if ($action == 'get') {
+          $id = $uri[5];
+          $data = getAvisobyId($strErrorDesc, $strErrorHeader, $id);
+      }
+       
+      
       break;
     case 'POST':
       if ($action == 'create') {
@@ -83,6 +95,20 @@ function listByProfesionalAvisos($strErrorDesc, $strErrorHeader, $profesionalId)
     
     $arrAvisos = listAvisosByProfesional($profesionalId);
     $response = json_encode($arrAvisos);
+  } catch (Error $e) {
+    $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
+    $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+  }
+
+  return $response;
+}
+
+function getAvisobyId($strErrorDesc, $strErrorHeader, $id) {
+  $response = null;
+
+  try {
+    $aviso = getAviso($id);
+    $response = json_encode($aviso);
   } catch (Error $e) {
     $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
     $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';

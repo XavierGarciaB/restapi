@@ -13,6 +13,15 @@ function listAvisos() {
     return $data;
 }
 
+function getAviso($id) {
+    $data = [];
+    $result = select("SELECT * FROM avisos WHERE id=$id");
+    foreach($result as $aviso) {
+        array_push($data, $aviso);
+    }
+    return $data[0];
+}
+
 function listAvisosByProfesional($profesionalId) {
     $data = [];
     $result = select("SELECT * FROM avisos WHERE profesionales_id=$profesionalId");
@@ -35,11 +44,10 @@ function createAviso($aviso) {
 
 function updateAviso($aviso) {
     $id = $aviso->id;
-    $fecha = $aviso->fechaPublicacion;
     $contenido = $aviso->contenido;
     $titulo = $aviso->titulo;
-    $pro_id= $aviso -> profesionales_id;
-    $query = "UPDATE avisos SET fechaPublicacion='$fecha', contenido='$contenido',titulo='$titulo', profesionales_id=$pro_id WHERE id=$id";
+   
+    $query = "UPDATE avisos SET  contenido='$contenido',titulo='$titulo' WHERE id=$id";
     $result = executeStatement($query);
     return $result;
 }
